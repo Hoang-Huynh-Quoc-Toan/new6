@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <input type="file" />
+    <div id="list"></div>
+    <script>
+      $("document").ready(() => {
+        $.get(
+          "https://c662a7dda11844e4933e08f456b4b2f0.api.mockbin.io/",
+          (data, textStatus, xhr) => {
+            if (xhr.status === 200) {
+              showData(data);
+            }
+          }
+        );
+        function showData(arr) {
+          const list = document.getElementById("list");
+          const template = `<div class="flex">  <div class="w-1/2">  <img src="$image"/>  </div>  <div  class="w-1/2 flex flex-col">  
+            <div>$title</div>  <div>$sub-titile</div> <div>$created_at</div> <div>$description</div> 
+            <div>$comment</div> <div>$rating</div> <div>$like</div></div></div>`;
+          arr.forEach((element) => {
+            let newElement = template.replace("$image", element.image)
+              .replace("$title", element.title)
+              .replace("$sub-titile", element.sub_titile)
+              .replace("$created_at", element.created_at)
+              .replace("$description", element.description)
+              .replace("$comment", element.comment)
+              .replace("$rating", element.rating)
+              .replace("$like", element.like)
+            const div = document.createElement("div");
+            div.innerHTML = newElement;
+            list.appendChild(div);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
